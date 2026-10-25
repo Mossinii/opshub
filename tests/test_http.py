@@ -39,11 +39,25 @@ class HTTPApplicationTests(unittest.TestCase):
         self.assertEqual(body["service"], "opshub")
         self.assertEqual(body["status"], "ok")
 
+    def test_metrics_endpoint(self):
+        with urlopen(f"{self.base_url}/metrics") as response:
+            body = response.read().decode("utf-8")
+            content_type = response.headers["Content-Type"]
+
+        self.assertEqual(response.status, 200)
+        self.assertTrue(
+            content_type.startswith("text/plain; version=0.0.4")
+        )
+        self.assertIn("opshub_requests_total", body)
+        self.assertIn("opshub_health_checks_total", body)
+        self.assertIn("opshub_uptime_seconds", body)
+
     def test_unknown_endpoint_returns_not_found(self):
         try:
             urlopen(f"{self.base_url}/does-not-exist")
         except HTTPError as error:
             self.assertEqual(error.code, 404)
+            error.close()
         else:
             self.fail("Expected a 404 HTTP error")
 
