@@ -30,3 +30,34 @@ Project initialization.
 6. Kubernetes deployment
 7. Infrastructure as Code
 8. Incident simulation and post-mortem
+
+## Running with Docker Compose
+
+Create a local environment file from the example:
+
+    cp .env.example .env
+
+Build and start the service:
+
+    docker compose up --build
+
+Run it in the background:
+
+    docker compose up -d --build
+
+Check the service:
+
+    curl http://localhost:8000/health
+
+View the service status:
+
+    docker compose ps
+
+View logs:
+
+    docker compose logs
+
+Stop and remove the Compose resources:
+
+    docker compose down
+

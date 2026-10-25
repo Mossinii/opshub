@@ -1,0 +1,12 @@
+services:
+  opshub:
+    build:
+      context: .
+    image: opshub:local
+    container_name: opshub-local
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment:
+      APP_NAME: "${APP_NAME:-opshub}"
+      APP_ENV: "${APP_ENV:-compose}"
+      APP_PORT: "8000"
